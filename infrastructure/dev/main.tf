@@ -5,10 +5,10 @@ provider "google" {
   region = "${var.zone}"
 }
 
-resource "google_compute_address" "static" {
-  name = "terraform-phil-xu-sandpit-gke-cluster-external-ip"
-  region = "${var.region}"
-}
+# resource "google_compute_address" "static" {
+#   name = "terraform-phil-xu-sandpit-gke-cluster-external-ip"
+#   region = "${var.region}"
+# }
 
 # resource "google_container_cluster" "primary" {
 #   name     = "terraform-gke-cluster"
