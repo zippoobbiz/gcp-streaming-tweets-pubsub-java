@@ -18,6 +18,8 @@ steps:
       if [ -d "../infrastructure/" ]; then
         cd ../infrastructure
         terraform init
+      else
+        pwd
       fi 
 
 # [START tf-plan]
@@ -30,6 +32,8 @@ steps:
       if [ -d "../infrastructure/" ]; then
         cd ../infrastructure
         terraform plan
+      else
+        pwd
       fi 
 # [END tf-plan]
 
