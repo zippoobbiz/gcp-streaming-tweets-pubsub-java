@@ -1,31 +1,18 @@
-locals {
-  region = "australia-southeast1"
-  zone = "australia-southeast1-a"
-}
-
-terraform {
-  backend "gcs" {
-    bucket = "phil-xu-tf-state"
-    region = "australia-southeast1-a"
-    prefix = "terraform/state"
-  }
-}
-
 provider "google" {
   version = "2.0.0"
 # credentials = "${file("../private/hack-tf-sa.js")}"
-  project = "phil-xu-sandpit"
-  region = "${local.zone}"
+  project = "${var.project}"
+  region = "${var.zone}"
 }
 
 resource "google_compute_address" "static" {
   name = "terraform-phil-xu-sandpit-gke-cluster-external-ip"
-  region = "${local.region}"
+  region = "${var.region}"
 }
 
 # resource "google_container_cluster" "primary" {
 #   name     = "terraform-gke-cluster"
-#   zone = "${local.zone}"
+#   zone = "${var.zone}"
 
 #   # We can't create a cluster with no node pool defined, but we want to only use
 #   # separately managed node pools. So we create the smallest possible default
@@ -45,7 +32,7 @@ resource "google_compute_address" "static" {
 
 # resource "google_container_node_pool" "primary_preemptible_nodes" {
 #   name       = "terraform-my-preemptible-node-pool"
-#   zone   = "${local.zone}"
+#   zone   = "${var.zone}"
 #   cluster    = "${google_container_cluster.primary.name}"
 #   node_count = 1
 
