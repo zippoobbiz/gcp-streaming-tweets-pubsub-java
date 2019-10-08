@@ -15,8 +15,8 @@ steps:
   args: 
   - '-c'
   - |
-      if [ -d "dev/infrastructure/" ]; then
-        cd dev/infrastructure
+      if [ -d "infrastructure/dev/" ]; then
+        cd infrastructure/dev
         terraform init
       fi 
 
@@ -27,8 +27,8 @@ steps:
   args: 
   - '-c'
   - | 
-      if [ -d "dev/infrastructure/" ]; then
-        cd dev/infrastructure
+      if [ -d "infrastructure/dev/" ]; then
+        cd infrastructure/dev
         terraform plan
       fi 
 # [END tf-plan]
