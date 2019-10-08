@@ -30,8 +30,6 @@ steps:
       if [ -d "infrastructure/" ]; then
         cd infrastructure
         terraform plan
-      else
-        ls
       fi 
 # [END tf-plan]
 
