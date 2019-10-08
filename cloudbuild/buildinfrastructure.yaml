@@ -15,11 +15,9 @@ steps:
   args: 
   - '-c'
   - |
-      if [ -d "../infrastructure/" ]; then
-        cd ../infrastructure
+      if [ -d "infrastructure/" ]; then
+        cd infrastructure
         terraform init
-      else
-        pwd
       fi 
 
 # [START tf-plan]
@@ -29,11 +27,11 @@ steps:
   args: 
   - '-c'
   - | 
-      if [ -d "../infrastructure/" ]; then
-        cd ../infrastructure
+      if [ -d "infrastructure/" ]; then
+        cd infrastructure
         terraform plan
       else
-        pwd
+        ls
       fi 
 # [END tf-plan]
 
