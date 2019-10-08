@@ -15,8 +15,8 @@ steps:
   args: 
   - '-c'
   - |
-      if [ -d "infrastructure/dev/" ]; then
-        cd infrastructure/dev
+      if [ -d "infrastructure/$BRANCH_NAME/" ]; then
+        cd infrastructure/$BRANCH_NAME
         terraform init
       fi 
 
@@ -27,25 +27,25 @@ steps:
   args: 
   - '-c'
   - | 
-      if [ -d "infrastructure/dev/" ]; then
-        cd infrastructure/dev
+      if [ -d "infrastructure/$BRANCH_NAME/" ]; then
+        cd infrastructure/$BRANCH_NAME
         terraform plan
       fi 
 # [END tf-plan]
 
 # [START tf-apply]
-# - id: 'tf apply'
-#   name: 'hashicorp/terraform:0.11.14'
-#   entrypoint: 'sh'
-#   args: 
-#   - '-c'
-#   - | 
-#       if [ -d "environments/$BRANCH_NAME/" ]; then
-#         cd environments/$BRANCH_NAME      
-#         terraform apply -auto-approve
-#       else
-#         echo "***************************** SKIPPING APPLYING *******************************"
-#         echo "Branch '$BRANCH_NAME' does not represent an oficial environment."
-#         echo "*******************************************************************************"
-#       fi
+- id: 'tf apply'
+  name: 'hashicorp/terraform:0.11.14'
+  entrypoint: 'sh'
+  args: 
+  - '-c'
+  - | 
+      if [ -d "infrastructure/$BRANCH_NAME/" ]; then
+        cd infrastructure/$BRANCH_NAME/     
+        terraform apply -auto-approve
+      else
+        echo "***************************** SKIPPING APPLYING *******************************"
+        echo "Branch '$BRANCH_NAME' does not represent an official environment."
+        echo "*******************************************************************************"
+      fi
 # [END tf-apply]      
