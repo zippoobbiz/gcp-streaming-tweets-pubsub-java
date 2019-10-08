@@ -2,7 +2,7 @@ import java.util.Timer;
 
 public class MyTimerTask {
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws Exception{
         TwittsPublisher myPublisher = new TwittsPublisher(args);
         //running timer task as daemon thread
         Timer timer = new Timer(true);

@@ -21,7 +21,7 @@ public class TwittsPublisher extends TimerTask {
     private static String PROJECT_ID;
     private static String PUBSUB_TOPIC;
     private static boolean isPublisherMode = false;
-    private static int batchSize = 100000;
+    private static int batchSize = 10;
     private static Publisher publisher = null;
     private static int counter = 0;
     private final TwitterStream twitterStream;
@@ -29,25 +29,44 @@ public class TwittsPublisher extends TimerTask {
     private String[] languages;
 
 
-    public TwittsPublisher(String[] keywords) {
+    public TwittsPublisher(String[] keywords) throws Exception{
+
+        if (System.getenv("TWBATCHSIZE") != null) {
+            String batchSizeStr = System.getenv("TWBATCHSIZE");
+            try {
+                batchSize = Integer.parseInt(batchSizeStr);
+            } catch (Exception e) {
+                throw new Exception("Batch size is not number!");
+            }
+        } else {
+            throw new Exception("Batch size is not defined!");
+        }
 
         // over write filtering key words
         if (System.getenv("TWKEYWORDS") != null) {
             this.keywords = System.getenv("TWKEYWORDS").split(",");
         } else if (keywords.length > 0) {
             this.keywords = keywords;
+        } else {
+            throw new Exception("Key words not found!");
         }
 
         if (System.getenv("TWLANGUAGE") != null) {
             this.languages = System.getenv("TWLANGUAGE").split(",");
+        } else {
+            throw new Exception("Language preference not found!");
         }
 
         if (System.getenv("TWPROJECTID") != null) {
             this.PROJECT_ID = System.getenv("TWPROJECTID");
+        } else {
+            throw new Exception("GCP project not found!");
         }
 
         if (System.getenv("PUBSUB_TOPIC") != null) {
             this.PUBSUB_TOPIC = System.getenv("PUBSUB_TOPIC");
+        } else {
+            throw new Exception("Pub/Sub topic not found!");
         }
 
         if (System.getenv("TWSTREAMMODE") != null) {
@@ -119,10 +138,16 @@ public class TwittsPublisher extends TimerTask {
     }
 
     public static void main(String[] args) {
-        batchSize = 99999999;
-
-        TwittsPublisher myPublisher = new TwittsPublisher(args);
-        myPublisher.run();
+        LOGGER.info("Program start!");
+        try {
+            TwittsPublisher myPublisher = new TwittsPublisher(args);
+            myPublisher.run();
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+        }
+        
+        LOGGER.info("Program complete!");
+        
     }
 
     public void publish(String message) {
