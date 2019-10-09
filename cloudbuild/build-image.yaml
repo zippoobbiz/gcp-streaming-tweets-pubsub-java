@@ -16,7 +16,7 @@ steps:
 images: 
 - 'gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA'
 secrets:
-- kmsKeyName: projects/$PROJECT_ID/locations/global/keyRings/phil-xu-sandpit-key-ring/cryptoKeys/phil-xu-sandpit-key
+- kmsKeyName: projects/phil-xu-sandpit/locations/global/keyRings/phil-xu-sandpit-key-ring/cryptoKeys/phil-xu-sandpit-key
   secretEnv:
     ACCESSTOKEN: CiQAhOAvUnPLy3KBgQPs0zNq6vLVFIZwo1ko8LyaW4nmzMvHqB8SWwA6MbhPv7e9qOsD8ydsplJgP1hzEjAstj6hvmrD5PEASyFD7JcSTW9+K9oGJtg+a+nJbYmi4DP5h7emlAq8ko2WdQJtWMrss/ZRGLkcwNhtK3PJiDbcRVPCAyc=
     ACCESSTOKENSEC: CiQAhOAvUkMc/igc5O3SKDoqrWkNyqCs9vsHwWzcR9SiYk2CkR8SVgA6MbhP9PHHk54R1cisK+WZbQhFnNEtEUvMqxgyBUR0NyQ6ZluNSDejEFOGFWGNcXtZkODMh5bgNs8qHKlOWwEuJ+0HuTosOxHZSAwNOXV5g/vHvNIk
