@@ -7,5 +7,5 @@ steps:
   args: ['build', '--tag=gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA', '.']
   # Deploy container image to Cloud Run
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['beta', 'run', 'deploy', 'gcp-streaming-tweets-pubsub-java', '--image', 'gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA', '--region', 'australia-southeast1', '--platform', 'managed']
+  args: ['beta', 'run', 'deploy', 'gcp-streaming-tweets-pubsub-java', '--image', 'gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA', '--region', 'asia-northeast1', '--platform', 'managed']
 images: ['gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA']
