@@ -44,7 +44,7 @@ public class TwittsPublisher extends TimerTask {
 
         // over write filtering key words
         if (System.getenv("TWKEYWORDS") != null) {
-            this.keywords = System.getenv("TWKEYWORDS").split(",");
+            this.keywords = System.getenv("TWKEYWORDS").split(" ");
         } else if (keywords.length > 0) {
             this.keywords = keywords;
         } else {
