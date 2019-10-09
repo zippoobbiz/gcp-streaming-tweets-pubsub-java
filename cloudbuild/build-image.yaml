@@ -21,7 +21,7 @@ steps:
   - 'asia-northeast1'
   - '--platform'
   - 'managed'
-  - '--update-env-vars'
+  - '--set-env-vars'
   - 'TWKEYWORDS="big,query,Bigquery,BigQuery",TWBATCHSIZE=10,TWLANGUAGE=en,TWPROJECTID=phil-xu-sandpit,PUBSUB_TOPIC=twittstopic'
   secretEnv: ['ACCESSTOKEN', 'ACCESSTOKENSEC', 'CONSUMERKEY', 'CONSUMERSECRET']
 images: 
