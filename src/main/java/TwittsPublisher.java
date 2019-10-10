@@ -34,6 +34,7 @@ public class TwittsPublisher extends TimerTask {
     private String[] keywords;
     private String[] languages;
     private static String response;
+    private static boolean block = true;
 
     public TwittsPublisher() throws Exception{
 
@@ -115,6 +116,7 @@ public class TwittsPublisher extends TimerTask {
                         counter++;
                     }
                 } else {
+                    block = false;
                     twitterStream.shutdown();
                 }
             }
@@ -163,7 +165,8 @@ public class TwittsPublisher extends TimerTask {
             } catch (Exception e) {
                 LOGGER.error(e.getMessage());
             }
-        
+            while (block) {}
+            block = true;
             LOGGER.info("publisher complete!");
             response = "Tweets publisher is triggered" + response;
             t.sendResponseHeaders(200, response.length());
