@@ -143,7 +143,11 @@ public class TwittsPublisher extends TimerTask {
 
     public static void main(String[] args) throws Exception {
 
-        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+        HttpServer healthCheck = HttpServer.create(new InetSocketAddress(8080), 0);
+        healthCheck.setExecutor(null); // creates a default executor
+        healthCheck.start();
+
+        HttpServer server = HttpServer.create(new InetSocketAddress(80), 0);
         server.createContext("/trigger", new MyHandler());
         server.setExecutor(null); // creates a default executor
         server.start();
