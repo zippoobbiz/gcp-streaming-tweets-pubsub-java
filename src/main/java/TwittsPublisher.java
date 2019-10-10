@@ -26,12 +26,12 @@ public class TwittsPublisher extends TimerTask {
 
     private static String PROJECT_ID;
     private static String PUBSUB_TOPIC;
-    private static boolean isPublisherMode = false;
+    private static boolean isPublisherMode = true;
     private static int batchSize = 10;
     private static Publisher publisher = null;
     private static int counter = 0;
     private final TwitterStream twitterStream;
-    private String[] keywords;
+    private String[] keywords = {"blizzard", "pubg", "corsair", "switch"};
     private String[] languages;
     private static String response;
     private static boolean block = true;
@@ -50,7 +50,9 @@ public class TwittsPublisher extends TimerTask {
         }
 
         // over write filtering key words
-        if (System.getenv("TWKEYWORDS") != null) {
+        if (keywords.length > 0) {
+
+        }else if (System.getenv("TWKEYWORDS") != null) {
             this.keywords = System.getenv("TWKEYWORDS").split(" ");
         } else {
             throw new Exception("Key words not found!");
