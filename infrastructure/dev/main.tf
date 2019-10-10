@@ -85,3 +85,15 @@ provider "google" {
 
 #   filename = "cloudbuild.yaml"
 # }
+
+
+resource "google_bigquery_dataset" "default" {
+  dataset_id                  = "rtda"
+  description                 = "This is a test dataset for tweets"
+  location                    = "australia-southeast1"
+  default_table_expiration_ms = 3600000
+
+  labels = {
+    env = "default"
+  }
+}
