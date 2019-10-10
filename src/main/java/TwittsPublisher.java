@@ -13,6 +13,12 @@ import twitter4j.conf.ConfigurationBuilder;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.TimerTask;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
 
 public class TwittsPublisher extends TimerTask {
 
@@ -27,9 +33,9 @@ public class TwittsPublisher extends TimerTask {
     private final TwitterStream twitterStream;
     private String[] keywords;
     private String[] languages;
+    private static String reponse;
 
-
-    public TwittsPublisher(String[] keywords) throws Exception{
+    public TwittsPublisher() throws Exception{
 
         if (System.getenv("TWBATCHSIZE") != null) {
             String batchSizeStr = System.getenv("TWBATCHSIZE");
@@ -45,8 +51,6 @@ public class TwittsPublisher extends TimerTask {
         // over write filtering key words
         if (System.getenv("TWKEYWORDS") != null) {
             this.keywords = System.getenv("TWKEYWORDS").split(" ");
-        } else if (keywords.length > 0) {
-            this.keywords = keywords;
         } else {
             throw new Exception("Key words not found!");
         }
@@ -103,8 +107,8 @@ public class TwittsPublisher extends TimerTask {
                     JSONObject json = toJson(status);
                     if (null != json.getString("text") && !json.getString("text").startsWith("RT")) {
                         String jsonInString = toJson(status).toString();
-                        System.out.println(jsonInString);
-                        LOGGER.debug(jsonInString);
+                        LOGGER.info(jsonInString);
+                        reponse += jsonInString + "\n";
                         if (isPublisherMode) {
                             publish(jsonInString);
                         }
@@ -137,17 +141,34 @@ public class TwittsPublisher extends TimerTask {
         });
     }
 
-    public static void main(String[] args) {
-        LOGGER.info("Program start!");
-        try {
-            TwittsPublisher myPublisher = new TwittsPublisher(args);
-            myPublisher.run();
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+    public static void main(String[] args) throws Exception {
+
+        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+        server.createContext("/trigger", new MyHandler());
+        server.setExecutor(null); // creates a default executor
+        server.start();
+    }
+
+    static class MyHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange t) throws IOException {
+            LOGGER.info("publisher triggered!");
+            reponse = "";
+            counter = 0;
+            try {
+                TwittsPublisher myPublisher = new TwittsPublisher();
+                myPublisher.run();
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage());
+            }
+        
+            LOGGER.info("publisher complete!");
+            String response = "This is the response";
+            t.sendResponseHeaders(200, response.length());
+            OutputStream os = t.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
         }
-        
-        LOGGER.info("Program complete!");
-        
     }
 
     public void publish(String message) {

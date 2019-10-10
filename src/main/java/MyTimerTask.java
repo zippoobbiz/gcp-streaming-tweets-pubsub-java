@@ -3,7 +3,7 @@ import java.util.Timer;
 public class MyTimerTask {
 
     public static void main(String args[]) throws Exception{
-        TwittsPublisher myPublisher = new TwittsPublisher(args);
+        TwittsPublisher myPublisher = new TwittsPublisher();
         //running timer task as daemon thread
         Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(myPublisher, 0, 60 * 1000);
