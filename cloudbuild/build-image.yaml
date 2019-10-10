@@ -13,7 +13,7 @@ steps:
   entrypoint: 'bash'
   args: 
   - '-c' 
-  - 'echo lalal && echo $$ACCESSTOKEN && echo bbb && gcloud beta run deploy gcp-streaming-tweets-pubsub-java --image gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA --region asia-northeast1 --platform managed --set-env-vars TWKEYWORDS="big query Bigquery BigQuery",TWBATCHSIZE=10,TWLANGUAGE=en,TWPROJECTID="phil-xu-sandpit",PUBSUB_TOPIC=twittstopic,ACCESSTOKEN=$$ACCESSTOKEN,ACCESSTOKENSEC=$$ACCESSTOKENSEC,CONSUMERKEY=$$CONSUMERKEY,CONSUMERSECRET=$$CONSUMERSECRET'
+  - 'gcloud beta run deploy gcp-streaming-tweets-pubsub-java --image gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA --region asia-northeast1 --platform managed --allow-unauthenticated --set-env-vars TWKEYWORDS="big query Bigquery BigQuery",TWBATCHSIZE=10,TWLANGUAGE=en,TWPROJECTID="phil-xu-sandpit",PUBSUB_TOPIC=twittstopic,ACCESSTOKEN=$$ACCESSTOKEN,ACCESSTOKENSEC=$$ACCESSTOKENSEC,CONSUMERKEY=$$CONSUMERKEY,CONSUMERSECRET=$$CONSUMERSECRET'
   secretEnv: ['ACCESSTOKEN', 'ACCESSTOKENSEC', 'CONSUMERKEY', 'CONSUMERSECRET']
 images: 
 - 'gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA'
