@@ -117,6 +117,7 @@ public class TwittsPublisher extends TimerTask {
                     }
                 } else {
                     block = false;
+                    LOGGER.info("block set to false");
                     twitterStream.shutdown();
                 }
             }
