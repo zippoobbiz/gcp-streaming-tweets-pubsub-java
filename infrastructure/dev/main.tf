@@ -98,8 +98,8 @@ resource "google_bigquery_dataset" "default" {
   }
 }
 
-resource "google_storage_bucket" "image-store" {
-  name     = "stage-bucket"
+resource "google_storage_bucket" "phil-xu-sandpit-stage-bucket" {
+  name     = "phil-xu-sandpit-stage-bucket"
   location = "australia-southeast1"
   storage_class = "STANDARD"
 }
