@@ -166,8 +166,10 @@ public class TwittsPublisher extends TimerTask {
             } catch (Exception e) {
                 LOGGER.error(e.getMessage());
             }
-            while (block) {}
-            block = true;
+            try { 
+                long numMillisecondsToSleep = 10000; // 5 seconds 
+                Thread.sleep(numMillisecondsToSleep); 
+           } catch (InterruptedException e) { } 
             LOGGER.info("publisher complete!");
             response = "Tweets publisher is triggered" + response;
             t.sendResponseHeaders(200, response.length());
