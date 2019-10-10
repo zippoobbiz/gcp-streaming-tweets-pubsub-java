@@ -33,7 +33,7 @@ public class TwittsPublisher extends TimerTask {
     private final TwitterStream twitterStream;
     private String[] keywords;
     private String[] languages;
-    private static String reponse;
+    private static String response;
 
     public TwittsPublisher() throws Exception{
 
@@ -108,7 +108,7 @@ public class TwittsPublisher extends TimerTask {
                     if (null != json.getString("text") && !json.getString("text").startsWith("RT")) {
                         String jsonInString = toJson(status).toString();
                         LOGGER.info(jsonInString);
-                        reponse += jsonInString + "\n";
+                        response += jsonInString + "\n";
                         if (isPublisherMode) {
                             publish(jsonInString);
                         }
@@ -143,13 +143,8 @@ public class TwittsPublisher extends TimerTask {
 
     public static void main(String[] args) throws Exception {
 
-        HttpServer healthCheck = HttpServer.create(new InetSocketAddress(8080), 0);
-        healthCheck.createContext("/trigger", new MyHandler());
-        healthCheck.setExecutor(null); // creates a default executor
-        healthCheck.start();
-
-        HttpServer server = HttpServer.create(new InetSocketAddress(80), 0);
-        server.createContext("/", new MyHandler());
+        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
+        server.createContext("/trigger", new MyHandler());
         server.setExecutor(null); // creates a default executor
         server.start();
     }
@@ -158,17 +153,19 @@ public class TwittsPublisher extends TimerTask {
         @Override
         public void handle(HttpExchange t) throws IOException {
             LOGGER.info("publisher triggered!");
-            reponse = "";
+            response = "";
             counter = 0;
             try {
                 TwittsPublisher myPublisher = new TwittsPublisher();
-                myPublisher.run();
+                // myPublisher.run();
+                myPublisher.runSync();
+                
             } catch (Exception e) {
                 LOGGER.error(e.getMessage());
             }
         
             LOGGER.info("publisher complete!");
-            String response = "This is the response";
+            response = "Tweets publisher is triggered" + response;
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();
             os.write(response.getBytes());
@@ -233,6 +230,14 @@ public class TwittsPublisher extends TimerTask {
 
     @Override
     public void run() {
+        FilterQuery tweetFilterQuery = new FilterQuery();
+        counter = 0;
+        tweetFilterQuery.track(keywords);
+        tweetFilterQuery.language(languages);
+        twitterStream.filter(tweetFilterQuery);
+    }
+
+    public void runSync() {
         FilterQuery tweetFilterQuery = new FilterQuery();
         counter = 0;
         tweetFilterQuery.track(keywords);
