@@ -85,7 +85,14 @@ provider "google" {
 
 #   filename = "cloudbuild.yaml"
 # }
+resource "google_pubsub_topic" "twittstopic" {
+  name = "twittstopic"
+}
 
+resource "google_pubsub_subscription" "twittstopicsub" {
+  name  = "twittstopicsub"
+  topic = "${google_pubsub_topic.twittstopic.name}"
+}
 
 resource "google_bigquery_dataset" "default" {
   dataset_id                  = "rtda"
