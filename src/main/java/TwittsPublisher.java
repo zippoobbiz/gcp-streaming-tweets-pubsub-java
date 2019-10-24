@@ -30,14 +30,28 @@ public class TwittsPublisher extends TimerTask {
     private static int batchSize = 10;
     private static Publisher publisher = null;
     private static int counter = 0;
-    private final TwitterStream twitterStream;
+    private TwitterStream twitterStream;
     private String[] keywords = {"blizzard", "pubg", "corsair", "switch"};
     private String[] languages;
-    private static String response;
-    private static boolean block = true;
 
     public TwittsPublisher() throws Exception{
+        init();
+        varCheck();
+        setupTwitter();
+    }
 
+    public TwittsPublisher(String[] keywords) throws Exception{
+        this.keywords = keywords;
+        init();
+        varCheck();
+        setupTwitter();
+    }
+
+    public void init() {
+        counter = 0;
+    }
+
+    public void varCheck() throws Exception{
         if (System.getenv("TWBATCHSIZE") != null) {
             String batchSizeStr = System.getenv("TWBATCHSIZE");
             try {
@@ -79,7 +93,9 @@ public class TwittsPublisher extends TimerTask {
         if (System.getenv("TWSTREAMMODE") != null) {
             this.isPublisherMode = System.getenv("TWSTREAMMODE").equals("publisher");
         }
+    }
 
+    public void setupTwitter() {
         // create configuration Builder
         ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
         configurationBuilder.setOAuthConsumerKey(System.getenv("CONSUMERKEY"))
@@ -108,17 +124,16 @@ public class TwittsPublisher extends TimerTask {
 
                 if (counter < batchSize) {
                     JSONObject json = toJson(status);
+                    String jsonInString = json.toString();
                     if (null != json.getString("text") && !json.getString("text").startsWith("RT")) {
-                        String jsonInString = toJson(status).toString();
+                        counter++;
                         LOGGER.info(jsonInString);
-                        response += jsonInString + "\n";
+                        LOGGER.info("counter: " + counter);
                         if (isPublisherMode) {
                             publish(jsonInString);
                         }
-                        counter++;
                     }
                 } else {
-                    block = false;
                     LOGGER.info("block set to false");
                     twitterStream.shutdown();
                 }
@@ -144,44 +159,6 @@ public class TwittsPublisher extends TimerTask {
 
             }
         });
-    }
-
-    public static void main(String[] args) throws Exception {
-
-        HttpServer server = HttpServer.create(new InetSocketAddress(8080), 0);
-        server.createContext("/trigger", new MyHandler());
-        server.setExecutor(null); // creates a default executor
-        server.start();
-        
-    }
-
-    static class MyHandler implements HttpHandler {
-        @Override
-        public void handle(HttpExchange t) throws IOException {
-            LOGGER.info("publisher triggered!");
-            response = "";
-            counter = 0;
-            try {
-                TwittsPublisher myPublisher = new TwittsPublisher();
-                // myPublisher.run();
-                myPublisher.runSync();
-                
-            } catch (Exception e) {
-                LOGGER.error(e.getMessage());
-            }
-            try { 
-                long numMillisecondsToSleep = 10000; // 5 seconds 
-                Thread.sleep(numMillisecondsToSleep); 
-           } catch (InterruptedException e) { 
-               LOGGER.error(e.getMessage());
-           } 
-            LOGGER.info("publisher complete!");
-            response = "Tweets publisher is triggered" + response;
-            t.sendResponseHeaders(200, response.length());
-            OutputStream os = t.getResponseBody();
-            os.write(response.getBytes());
-            os.close();
-        }
     }
 
     public void publish(String message) {
