@@ -152,6 +152,7 @@ public class TwittsPublisher extends TimerTask {
         server.createContext("/trigger", new MyHandler());
         server.setExecutor(null); // creates a default executor
         server.start();
+        
     }
 
     static class MyHandler implements HttpHandler {
