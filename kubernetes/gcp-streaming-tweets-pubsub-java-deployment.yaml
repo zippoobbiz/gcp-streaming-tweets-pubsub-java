@@ -15,8 +15,6 @@ spec:
       containers:
       - name: gcp-streaming-tweets-pubsub-java
         image: gcr.io/phil-xu-sandpit/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:latest
-        ports:
-        - containerPort: 9000
         env:
         - name: PUBSUB_TOPIC
           valueFrom:
