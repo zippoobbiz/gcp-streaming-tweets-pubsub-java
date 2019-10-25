@@ -16,6 +16,7 @@ spec:
       - name: gcp-streaming-tweets-pubsub-java
         image: gcr.io/phil-xu-sandpit/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:latest
         env:
+        - name: SEVERE
         - name: PUBSUB_TOPIC
           valueFrom:
             secretKeyRef:
@@ -61,4 +62,10 @@ spec:
             secretKeyRef:
               name: twitter-stream-secret
               key: TWLANGUAGE
+        - name: TWPROJECTID
+          valueFrom:
+            secretKeyRef:
+              name: twitter-stream-secret
+              key: TWPROJECTID
+              
 
