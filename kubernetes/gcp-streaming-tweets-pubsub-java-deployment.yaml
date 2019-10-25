@@ -71,8 +71,8 @@ spec:
         - name: CREDENTIALS
           valueFrom:
             secretKeyRef:
-              name: twitter-stream-secret
-              key: CREDENTIALS
+              name: twitter-stream-credential
+              key: temp.json
 
               
               
