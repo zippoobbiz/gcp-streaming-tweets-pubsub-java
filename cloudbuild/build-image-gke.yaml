@@ -8,10 +8,16 @@ steps:
 #   # Push the container image to Container Registry
 # - name: 'gcr.io/cloud-builders/docker'
 #   args: ['push', 'gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA']
-
 - name: 'gcr.io/cloud-builders/kubectl'
+  args: ['delete', 'secret', 'twitter-stream-secret']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=australia-southeast1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=standard-cluster-1'
+- name: 'gcr.io/cloud-builders/kubectl'
+  entrypoint: 'bash'
   args: 
-  - 'create secret generic twitter-stream-secret --from-literal=TWKEYWORDS=big,query,Bigquery,BigQuery --from-literal=TWBATCHSIZE=5 --from-literal=TWLANGUAGE=en --from-literal=TWPROJECTID=phil-xu-sandpit --from-literal=PUBSUB_TOPIC=twittstopic --from-literal=ACCESSTOKEN=$$ACCESSTOKEN --from-literal=ACCESSTOKENSEC=$$ACCESSTOKENSEC --from-literal=CONSUMERKEY=$$CONSUMERKEY --from-literal=CONSUMERSECRET=$$CONSUMERSECRET'
+  - '-c' 
+  - 'kubectl create secret generic twitter-stream-secret --from-literal=TWKEYWORDS=big,query,Bigquery,BigQuery --from-literal=TWBATCHSIZE=5 --from-literal=TWLANGUAGE=en --from-literal=TWPROJECTID=phil-xu-sandpit --from-literal=PUBSUB_TOPIC=twittstopic --from-literal=ACCESSTOKEN=$$ACCESSTOKEN --from-literal=ACCESSTOKENSEC=$$ACCESSTOKENSEC --from-literal=CONSUMERKEY=$$CONSUMERKEY --from-literal=CONSUMERSECRET=$$CONSUMERSECRET'
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=australia-southeast1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=standard-cluster-1'
