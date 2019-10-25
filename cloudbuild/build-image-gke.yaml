@@ -47,7 +47,7 @@ steps:
   entrypoint: 'bash'
   args: 
   - '-c' 
-  - 'export TEST=$$CREDENTIALS && echo $TEST'
+  - 'echo $$CREDENTIALS > temp.json && cat temp.json'
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=australia-southeast1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=standard-cluster-1'
