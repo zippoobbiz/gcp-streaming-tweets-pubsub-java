@@ -31,7 +31,6 @@ public class TwittsPublisher extends TimerTask {
     private static Publisher publisher = null;
     private static int counter = 0;
     private TwitterStream twitterStream;
-    private PubsubMessage pubsubMessage;
     private String[] keywords = {"blizzard", "pubg", "corsair", "switch"};
     private String[] languages;
 
@@ -108,7 +107,9 @@ public class TwittsPublisher extends TimerTask {
         ProjectTopicName topicName = ProjectTopicName.of(PROJECT_ID, PUBSUB_TOPIC);
 
         try {
-            publisher = Publisher.newBuilder(topicName).build();
+            if (publisher == null) {
+                publisher = Publisher.newBuilder(topicName).build();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -137,6 +138,11 @@ public class TwittsPublisher extends TimerTask {
                 } else {
                     LOGGER.info("block set to false");
                     twitterStream.shutdown();
+                    try {
+                        publisher.shutdown();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -164,11 +170,9 @@ public class TwittsPublisher extends TimerTask {
 
     public void publish(String message) {
 
-        if (pubsubMessage == null) {
-            pubsubMessage = PubsubMessage.newBuilder()
-            .setData(ByteString.copyFromUtf8(message))
-            .build();
-        }
+        PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
+                .setData(ByteString.copyFromUtf8(message))
+                .build();
 
         //schedule a message to be published, messages are automatically batched
         ApiFuture<String> future = publisher.publish(pubsubMessage);
