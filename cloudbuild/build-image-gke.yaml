@@ -15,6 +15,15 @@ steps:
   - --image=gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA
   - --location=australia-southeast1-a	
   - --cluster=standard-cluster-1
+  - --env="TWKEYWORDS=big,query,Bigquery,BigQuery"
+  - --env="TWBATCHSIZE=5"
+  - --env="TWLANGUAGE=en"
+  - --env="TWPROJECTID=phil-xu-sandpit"
+  - --env="PUBSUB_TOPIC=twittstopic"
+  - --env="ACCESSTOKEN=$$ACCESSTOKEN"
+  - --env="ACCESSTOKENSEC=$$ACCESSTOKENSEC"
+  - --env="CONSUMERKEY=$$CONSUMERKEY"
+  - --env="CONSUMERSECRET=$$CONSUMERSECRET"
   secretEnv: ['ACCESSTOKEN', 'ACCESSTOKENSEC', 'CONSUMERKEY', 'CONSUMERSECRET']
 images: 
 - 'gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA'
