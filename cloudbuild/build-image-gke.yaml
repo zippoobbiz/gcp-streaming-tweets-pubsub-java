@@ -26,8 +26,8 @@ steps:
    'set', 
    'image', 
    'deployment', 
-   'gcp-streaming-tweets-pubsub-java', 
-   'gcp-streaming-tweets-pubsub-java=gcr.io/$PROJECT_ID/gcp-streaming-tweets-pubsub-java:$SHORT_SHA'
+   'gcp-streaming-tweets-pubsub-java-deployment', 
+   'gcp-streaming-tweets-pubsub-java-deployment=gcr.io/$PROJECT_ID/gcp-streaming-tweets-pubsub-java:$SHORT_SHA'
   ]
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=australia-southeast1-a'
