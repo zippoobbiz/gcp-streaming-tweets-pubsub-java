@@ -16,7 +16,8 @@ spec:
       - name: gcp-streaming-tweets-pubsub-java
         image: gcr.io/phil-xu-sandpit/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:latest
         env:
-        - name: SEVERE
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /tmp/credentials.json
         - name: PUBSUB_TOPIC
           valueFrom:
             secretKeyRef:
@@ -67,5 +68,12 @@ spec:
             secretKeyRef:
               name: twitter-stream-secret
               key: TWPROJECTID
+        - name: CREDENTIALS
+          valueFrom:
+            secretKeyRef:
+              name: twitter-stream-secret
+              key: CREDENTIALS
+
+              
               
 
