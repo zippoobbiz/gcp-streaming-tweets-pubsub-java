@@ -31,6 +31,7 @@ public class TwittsPublisher extends TimerTask {
     private static Publisher publisher = null;
     private static int counter = 0;
     private TwitterStream twitterStream;
+    private PubsubMessage pubsubMessage;
     private String[] keywords = {"blizzard", "pubg", "corsair", "switch"};
     private String[] languages;
 
@@ -163,9 +164,11 @@ public class TwittsPublisher extends TimerTask {
 
     public void publish(String message) {
 
-        PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
-                .setData(ByteString.copyFromUtf8(message))
-                .build();
+        if (pubsubMessage == null) {
+            pubsubMessage = PubsubMessage.newBuilder()
+            .setData(ByteString.copyFromUtf8(message))
+            .build();
+        }
 
         //schedule a message to be published, messages are automatically batched
         ApiFuture<String> future = publisher.publish(pubsubMessage);
