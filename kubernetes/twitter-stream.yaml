@@ -1,19 +1,22 @@
-apiVersion: apps/v1
+apiVersion: apps/v1 
 kind: Deployment
 metadata:
-  name: gcp-streaming-tweets-pubsub-java
-  labels:
-    name: gcp-streaming-tweets-pubsub-java
+  name: gcp-streaming-tweets-pubsub-java-deployment
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      run: gcp-streaming-tweets-pubsub-java
   template:
     metadata:
       labels:
-        name: gcp-streaming-tweets-pubsub-java
+        run: gcp-streaming-tweets-pubsub-java
     spec:
       containers:
-      - name: twitter-to-pubsub
+      - name: gcp-streaming-tweets-pubsub-java
         image: gcr.io/phil-xu-sandpit/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:latest
+        ports:
+        - containerPort: 9000
         env:
         - name: PUBSUB_TOPIC
           valueFrom:
