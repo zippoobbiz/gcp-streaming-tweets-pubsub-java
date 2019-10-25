@@ -15,50 +15,50 @@ spec:
       containers:
       - name: gcp-streaming-tweets-pubsub-java
         image: gcr.io/phil-xu-sandpit/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:latest
-        # env:
-        # - name: PUBSUB_TOPIC
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: twitter-stream-secret
-        #       key: PUBSUB_TOPIC
-        # - name: CONSUMERSECRET
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: twitter-stream-secret
-        #       key: CONSUMERSECRET
-        # - name: CONSUMERKEY
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: twitter-stream-secret
-        #       key: CONSUMERKEY
-        # - name: ACCESSTOKEN
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: twitter-stream-secret
-        #       key: ACCESSTOKEN
-        # - name: ACCESSTOKENSEC
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: twitter-stream-secret
-        #       key: ACCESSTOKENSEC
-        # - name: TWSTREAMMODE
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: twitter-stream-secret
-        #       key: TWSTREAMMODE
-        # - name: TWKEYWORDS
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: twitter-stream-secret
-        #       key: TWKEYWORDS
-        # - name: TWBATCHSIZE
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: twitter-stream-secret
-        #       key: TWBATCHSIZE
-        # - name: TWLANGUAGE
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: twitter-stream-secret
-        #       key: TWLANGUAGE
+        env:
+        - name: PUBSUB_TOPIC
+          valueFrom:
+            secretKeyRef:
+              name: twitter-stream-secret
+              key: PUBSUB_TOPIC
+        - name: CONSUMERSECRET
+          valueFrom:
+            secretKeyRef:
+              name: twitter-stream-secret
+              key: CONSUMERSECRET
+        - name: CONSUMERKEY
+          valueFrom:
+            secretKeyRef:
+              name: twitter-stream-secret
+              key: CONSUMERKEY
+        - name: ACCESSTOKEN
+          valueFrom:
+            secretKeyRef:
+              name: twitter-stream-secret
+              key: ACCESSTOKEN
+        - name: ACCESSTOKENSEC
+          valueFrom:
+            secretKeyRef:
+              name: twitter-stream-secret
+              key: ACCESSTOKENSEC
+        - name: TWSTREAMMODE
+          valueFrom:
+            secretKeyRef:
+              name: twitter-stream-secret
+              key: TWSTREAMMODE
+        - name: TWKEYWORDS
+          valueFrom:
+            secretKeyRef:
+              name: twitter-stream-secret
+              key: TWKEYWORDS
+        - name: TWBATCHSIZE
+          valueFrom:
+            secretKeyRef:
+              name: twitter-stream-secret
+              key: TWBATCHSIZE
+        - name: TWLANGUAGE
+          valueFrom:
+            secretKeyRef:
+              name: twitter-stream-secret
+              key: TWLANGUAGE
 
