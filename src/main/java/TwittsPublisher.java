@@ -20,7 +20,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
-public class TwittsPublisher {
+public class TwittsPublisher extends TimerTask{
 
     private static final Logger LOGGER = Logger.getLogger(TwittsPublisher.class);
     public static TwittsPublisher myPublisher = new TwittsPublisher();
@@ -213,6 +213,15 @@ public class TwittsPublisher {
         newObj.put("lang", status.getLang());
 
         return newObj;
+    }
+
+    @Override
+    public void run() {
+        FilterQuery tweetFilterQuery = new FilterQuery();
+        counter = 0;
+        tweetFilterQuery.track(keywords);
+        tweetFilterQuery.language(languages);
+        twitterStream.filter(tweetFilterQuery);
     }
 
     public void runSync(String[] keywords) {
