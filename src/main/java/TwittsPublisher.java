@@ -139,7 +139,10 @@ public class TwittsPublisher extends TimerTask {
                     LOGGER.info("block set to false");
                     twitterStream.shutdown();
                     try {
-                        publisher.shutdown();
+                        if (publisher != null) {
+                            // When finished with the publisher, shutdown to free up resources.
+                            publisher.shutdown();
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
