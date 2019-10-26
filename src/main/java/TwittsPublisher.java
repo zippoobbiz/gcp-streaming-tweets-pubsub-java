@@ -20,10 +20,10 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
-public class TwittsPublisher extends TimerTask {
+public class TwittsPublisher {
 
     private static final Logger LOGGER = Logger.getLogger(TwittsPublisher.class);
-
+    public static TwittsPublisher myPublisher = new TwittsPublisher();
     private static String PROJECT_ID;
     private static String PUBSUB_TOPIC;
     private static boolean isPublisherMode = true;
@@ -34,17 +34,14 @@ public class TwittsPublisher extends TimerTask {
     private String[] keywords = {"blizzard", "pubg", "corsair", "switch"};
     private String[] languages;
 
-    public TwittsPublisher() throws Exception{
-        init();
-        varCheck();
-        setupTwitter();
-    }
-
-    public TwittsPublisher(String[] keywords) throws Exception{
-        this.keywords = keywords;
-        init();
-        varCheck();
-        setupTwitter();
+    public TwittsPublisher() {
+        try {
+            init();
+            varCheck();
+            setupTwitter();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void init() {
@@ -138,14 +135,6 @@ public class TwittsPublisher extends TimerTask {
                 } else {
                     LOGGER.info("block set to false");
                     twitterStream.shutdown();
-                    try {
-                        if (publisher != null) {
-                            // When finished with the publisher, shutdown to free up resources.
-                            publisher.shutdown();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
                 }
             }
 
@@ -226,21 +215,11 @@ public class TwittsPublisher extends TimerTask {
         return newObj;
     }
 
-    @Override
-    public void run() {
+    public void runSync(String[] keywords) {
         FilterQuery tweetFilterQuery = new FilterQuery();
         counter = 0;
         tweetFilterQuery.track(keywords);
         tweetFilterQuery.language(languages);
         twitterStream.filter(tweetFilterQuery);
     }
-
-    public void runSync() {
-        FilterQuery tweetFilterQuery = new FilterQuery();
-        counter = 0;
-        tweetFilterQuery.track(keywords);
-        tweetFilterQuery.language(languages);
-        twitterStream.filter(tweetFilterQuery);
-    }
-
 }

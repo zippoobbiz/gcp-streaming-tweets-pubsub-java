@@ -90,8 +90,7 @@ public class Handlers {
 				
 			try {
 				String keywords = (String) parameters.get("keywords");
-				TwittsPublisher myPublisher = new TwittsPublisher(keywords.split(","));
-                myPublisher.run();
+                TwittsPublisher.myPublisher.runSync(keywords.split(","));
                 // myPublisher.runSync();
                 
             } catch (Exception e) {
