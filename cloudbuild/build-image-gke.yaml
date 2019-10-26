@@ -9,12 +9,25 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA']
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['delete', 'secret', 'twitter-stream-secret']
+  args: ['get', 'po']
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=australia-southeast1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=standard-cluster-1'
 - name: 'gcr.io/cloud-builders/kubectl'
-  args: ['delete', 'secret', 'twitter-stream-credential']
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    kubectl delete secret twitter-stream-secret || exit 0
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=australia-southeast1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=standard-cluster-1'
+- name: 'gcr.io/cloud-builders/kubectl'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    kubectl delete secret twitter-stream-credential || exit 0
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=australia-southeast1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=standard-cluster-1'
