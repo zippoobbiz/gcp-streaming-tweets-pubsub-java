@@ -51,23 +51,36 @@ public class Handlers {
 		}
 	}
 
-	public static class EchoGetHandler implements HttpHandler {
+	public static class SearchHandler implements HttpHandler {
 
 		@Override
 		public void handle(HttpExchange he) throws IOException {
+
 			// parse request
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			URI requestedUri = he.getRequestURI();
 			String query = requestedUri.getRawQuery();
 			parseQuery(query, parameters);
 			// send response
-			String response = "";
-			for (String key : parameters.keySet())
-				response += key + " = " + parameters.get(key) + "\n";
-			he.sendResponseHeaders(200, response.length());
-			OutputStream os = he.getResponseBody();
-			os.write(response.toString().getBytes());
-			os.close();
+			String response = "Tweets filtered by: ";
+			String keyword = parameters.get("keywords").toString();
+			response += keyword + "\n";
+			for (String tweet: TwittsPublisher.tweets) {
+				if (tweet.contains(keyword))
+				response += tweet + "\n";
+			}
+
+			try {
+				byte[] bs = response.getBytes("UTF-8");
+				he.sendResponseHeaders(200, bs.length);
+				OutputStream os = he.getResponseBody();
+				os.write(bs);
+				os.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				
+			}
 		}
 
 	}

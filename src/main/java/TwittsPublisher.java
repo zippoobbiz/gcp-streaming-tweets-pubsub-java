@@ -12,6 +12,8 @@ import twitter4j.conf.ConfigurationBuilder;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TimerTask;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
@@ -24,6 +26,7 @@ public class TwittsPublisher extends TimerTask{
 
     private static final Logger LOGGER = Logger.getLogger(TwittsPublisher.class);
     public static TwittsPublisher myPublisher = new TwittsPublisher();
+    public static List<String> tweets = new ArrayList<String>();
     private static String PROJECT_ID;
     private static String PUBSUB_TOPIC;
     private static boolean isPublisherMode = true;
@@ -114,6 +117,7 @@ public class TwittsPublisher extends TimerTask{
                     JSONObject json = toJson(status);
                     String jsonInString = json.toString();
                     if (null != json.getString("text") && !json.getString("text").startsWith("RT")) {
+                        tweets.add(json.getString("text"));
                         counter++;
                         LOGGER.info(jsonInString);
                         LOGGER.info("counter: " + counter);

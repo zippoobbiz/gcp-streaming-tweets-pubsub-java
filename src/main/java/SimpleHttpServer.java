@@ -29,7 +29,7 @@ public class SimpleHttpServer {
 			System.out.println("server started at " + port);
 			server.createContext("/", new Handlers.RootHandler());
 			server.createContext("/echoHeader", new Handlers.EchoHeaderHandler());
-			server.createContext("/echoGet", new Handlers.EchoGetHandler());
+			server.createContext("/search", new Handlers.SearchHandler());
 			server.createContext("/changeKeyWorkds", new Handlers.ChangeKeyWorkdsHandler());
 			server.setExecutor(null);
 			server.start();
