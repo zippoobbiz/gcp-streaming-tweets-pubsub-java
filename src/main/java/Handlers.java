@@ -72,11 +72,11 @@ public class Handlers {
 
 	}
 
-	public static class EchoPostHandler implements HttpHandler {
+	public static class ChangeKeyWorkdsHandler implements HttpHandler {
 
 		@Override
 		public void handle(HttpExchange he) throws IOException {
-			System.out.println("Served by /echoPost handler...");
+			System.out.println("Served by /changeKeyWorkds handler...");
 			// parse request
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			InputStreamReader isr = new InputStreamReader(he.getRequestBody(), "utf-8");

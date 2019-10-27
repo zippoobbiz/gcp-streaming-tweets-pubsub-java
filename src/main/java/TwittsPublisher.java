@@ -100,17 +100,6 @@ public class TwittsPublisher extends TimerTask{
                 .setOAuthAccessToken(System.getenv("ACCESSTOKEN"))
                 .setOAuthAccessTokenSecret(System.getenv("ACCESSTOKENSEC"));
 
-
-        ProjectTopicName topicName = ProjectTopicName.of(PROJECT_ID, PUBSUB_TOPIC);
-
-        try {
-            if (publisher == null) {
-                publisher = Publisher.newBuilder(topicName).build();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         twitterStream = new TwitterStreamFactory(configurationBuilder.build()).getInstance();
 
         twitterStream.addListener(new StatusListener() {
@@ -159,9 +148,20 @@ public class TwittsPublisher extends TimerTask{
             }
         });
     }
-
+    
     public void publish(String message) {
 
+
+        ProjectTopicName topicName = ProjectTopicName.of(PROJECT_ID, PUBSUB_TOPIC);
+
+        try {
+            if (publisher == null) {
+                publisher = Publisher.newBuilder(topicName).build();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         PubsubMessage pubsubMessage = PubsubMessage.newBuilder()
                 .setData(ByteString.copyFromUtf8(message))
                 .build();
@@ -225,6 +225,7 @@ public class TwittsPublisher extends TimerTask{
     }
 
     public void runSync(String[] keywords) {
+        twitterStream.cleanUp();
         FilterQuery tweetFilterQuery = new FilterQuery();
         counter = 0;
         tweetFilterQuery.track(keywords);
