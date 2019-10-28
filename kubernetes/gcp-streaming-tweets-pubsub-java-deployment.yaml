@@ -75,6 +75,9 @@ spec:
               key: temp.json
       - name: consul-sidecar
         image: gcr.io/phil-xu-sandpit/consul-envoy:latest
+        env:
+        - name: CONSUL_HTTP_ADDR
+          value: http://35.197.180.216/
 
               
               
