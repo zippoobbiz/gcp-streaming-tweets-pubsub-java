@@ -73,6 +73,8 @@ spec:
             secretKeyRef:
               name: twitter-stream-credential
               key: temp.json
+      - name: consul-sidecar
+        iamge: gcr.io/phil-xu-sandpit/consul-envoy:latest
 
               
               
