@@ -1,13 +1,13 @@
 steps:
-  # Build/install the mvn project
-- name: 'gcr.io/cloud-builders/mvn'
-  args: ['install']
-  # Build the container image
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '--tag=gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA', '.']
-  # Push the container image to Container Registry
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA']
+#   # Build/install the mvn project
+# - name: 'gcr.io/cloud-builders/mvn'
+#   args: ['install']
+#   # Build the container image
+# - name: 'gcr.io/cloud-builders/docker'
+#   args: ['build', '--tag=gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA', '.']
+#   # Push the container image to Container Registry
+# - name: 'gcr.io/cloud-builders/docker'
+#   args: ['push', 'gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA']
 - name: 'gcr.io/cloud-builders/kubectl'
   args: ['get', 'po']
   env:
@@ -44,7 +44,7 @@ steps:
    'image', 
    'deployment', 
    'gcp-streaming-tweets-pubsub-java-deployment', 
-   'gcp-streaming-tweets-pubsub-java=gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA'
+   'gcp-streaming-tweets-pubsub-java=gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:latest'
   ]
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=australia-southeast1-a'
@@ -58,8 +58,8 @@ steps:
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=australia-southeast1-a'
   - 'CLOUDSDK_CONTAINER_CLUSTER=standard-cluster-1'
-images: 
-- 'gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA'
+# images: 
+# - 'gcr.io/$PROJECT_ID/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:$SHORT_SHA'
 secrets:
 - kmsKeyName: projects/phil-xu-sandpit/locations/global/keyRings/phil-xu-sandpit-key-ring/cryptoKeys/phil-xu-sandpit-key
   secretEnv:
