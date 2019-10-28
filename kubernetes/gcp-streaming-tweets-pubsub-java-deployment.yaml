@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: gcp-streaming-tweets-pubsub-java
-        image: gcr.io/phil-xu-sandpit/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:latest
+        image: gcr.io/phil-xu-sandpit/github.com/zippoobbiz/gcp-streaming-tweets-pubsub-java:1d8d196
         env:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /tmp/credentials.json
@@ -75,9 +75,11 @@ spec:
               key: temp.json
       - name: consul-sidecar
         image: gcr.io/phil-xu-sandpit/consul-envoy:latest
+        args: ['-sidecar-for', 'gcp-streaming-tweets-pubsub-java']
         env:
         - name: CONSUL_HTTP_ADDR
-          value: http://35.197.180.216/
+          value: http://35.197.180.216:8500
+          
 
               
               
